@@ -1,0 +1,5 @@
+==What is javablogs?==
+Javablogs is a blog aggregator for (not only) german java blogs based on Glen Smith's implementation for groovyblogs.org (see http://code.google.com/p/groovyblogs/).
+
+==Where can I see it?==
+Javablogs is still under development and not publicly available yet.

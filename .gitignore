@@ -1,0 +1,8 @@
+*.class
+*.log
+*.zip
+*.war
+classes
+target
+devDB.*
+testDB.*
