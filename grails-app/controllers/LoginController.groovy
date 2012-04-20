@@ -1,6 +1,6 @@
-import org.jsecurity.authc.AuthenticationException
-import org.jsecurity.authc.UsernamePasswordToken
-import org.jsecurity.SecurityUtils
+import org.apache.shiro.authc.AuthenticationException
+import org.apache.shiro.authc.UsernamePasswordToken
+import org.apache.shiro.SecurityUtils
 
 class LoginController {
 	

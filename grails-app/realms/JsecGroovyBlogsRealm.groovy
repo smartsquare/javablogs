@@ -1,10 +1,10 @@
-import org.jsecurity.authc.AccountException
-import org.jsecurity.authc.IncorrectCredentialsException
-import org.jsecurity.authc.UnknownAccountException
-import org.jsecurity.authc.SimpleAccount
+import org.apache.shiro.authc.AccountException
+import org.apache.shiro.authc.IncorrectCredentialsException
+import org.apache.shiro.authc.UnknownAccountException
+import org.apache.shiro.authc.SimpleAccount
 
 class JsecGroovyBlogsRealm {
-    static authTokenClass = org.jsecurity.authc.UsernamePasswordToken
+    static authTokenClass = org.apache.shiro.authc.UsernamePasswordToken
 
     // def credentialMatcher
 

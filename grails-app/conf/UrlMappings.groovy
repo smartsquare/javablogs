@@ -5,5 +5,10 @@ class UrlMappings {
 			 // apply constraints here
 		  }
 	  }
+	  
+	  "/" {
+		  controller = "entries"
+		  action = "recent"
+	  }
 	}	
 }

@@ -32,9 +32,9 @@ environments {
             dbCreate = "update"
             pooled = false
             driverClassName = "org.postgresql.Driver"
-            url = "jdbc:postgresql://localhost/groovyblogs"
-            username = "glen"
-            password = "password"
+            url = "jdbc:postgresql://localhost/javablogs"
+            username = "javablogs"
+            password = "javablogs"
         }
     }
     test {
