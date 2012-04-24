@@ -3,7 +3,6 @@ import org.apache.shiro.authc.UsernamePasswordToken
 import org.apache.shiro.SecurityUtils
 
 class AuthController {
-    def jsecSecurityManager
 
     def index = { redirect(action: 'login', params: params) }
 
@@ -23,7 +22,7 @@ class AuthController {
             // Perform the actual login. An AuthenticationException
             // will be thrown if the username is unrecognised or the
             // password is incorrect.
-            this.jsecSecurityManager.login(authToken)
+            SecurityUtils.subject?.login(authToken)
 
             // If a controller redirected to this page, redirect back
             // to it. Otherwise redirect to the root URI.

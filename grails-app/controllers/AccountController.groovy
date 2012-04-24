@@ -5,8 +5,6 @@ import javax.servlet.http.Cookie
 
 class AccountController  {
 	
-    def jsecSecurityManager
-
     FeedService feedService
 
     private Account getCurrentUser() {
@@ -68,7 +66,7 @@ class AccountController  {
             
             def authToken = new UsernamePasswordToken(params.userid, params.password)
 
-            this.jsecSecurityManager.login(authToken)
+            SecurityUtils.subject.login(authToken)
 
             redirect(action:'edit')
             //render(view: 'addfeed', model: ['account':account ])
