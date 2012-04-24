@@ -5,6 +5,8 @@ import javax.servlet.http.Cookie
 
 class AccountController  {
 	
+	public static final String INVALID_FEED_URL = "No valid XML RSS or Atom feed found at given URL."
+	
     FeedService feedService
 
     private Account getCurrentUser() {
@@ -96,33 +98,39 @@ class AccountController  {
         redirect(action: 'edit')
     }
 
-    def addFeed = {
+	def addFeed = {
 
-        def feedUrl = params.feedUrl
-        log.info("Adding Feed: [$feedUrl]")
-        if (feedUrl) {
+		def feedUrl = params.feedUrl
+		log.info("Adding Feed: [$feedUrl]")
 
+		def blog = new Blog()
+		blog.feedUrl = params.feedUrl
 
-            def blog = new Blog()
-            blog.feedUrl = params.feedUrl
-            def feedInfo = feedService.getFeedInfo(params.feedUrl)
+		def feedInfo = null
+		try {
+			feedInfo = feedService.getFeedInfo(params.feedUrl)
+		}
+		catch(InvalidFeedException e) {
+			flash.message = INVALID_FEED_URL
+		}
 
-            blog.title = feedInfo.title ? feedInfo.title : ""
-            blog.title = blog.title.length() > 250 ? blog.title[0..249] : blog.title
-            blog.description = feedInfo.description ? feedInfo.description : ""
-            blog.description = blog.description.length() > 250 ? blog.description[0..249] : blog.description
+		if(feedInfo) {
+			blog.title = feedInfo.title ? feedInfo.title : ""
+			blog.title = blog.title.length() > 250 ? blog.title[0..249] : blog.title
+			blog.description = feedInfo.description ? feedInfo.description : ""
+			blog.description = blog.description.length() > 250 ? blog.description[0..249] : blog.description
 
-            def account = getCurrentUser()
-            blog.account = account
-            if (blog.validate()) {
-                blog.save()
-                if (grailsApplication.config.feeds.moderate) {
-                    blog.status = "PENDING"
-                    try {
-                        sendMail {
-                            to grailsApplication.config.feeds.moderator_email
-                            subject "groovyblogs: Feed approval for ${feedInfo.title}"
-                            body """
+			def account = getCurrentUser()
+			blog.account = account
+			if (blog.validate()) {
+				blog.save()
+				if (grailsApplication.config.feeds.moderate) {
+					blog.status = "PENDING"
+					try {
+						sendMail {
+							to grailsApplication.config.feeds.moderator_email
+							subject "groovyblogs: Feed approval for ${feedInfo.title}"
+							body """
                         <p>
                         Request to approve URL: ${feedInfo.title} at url <a href="${params.feedUrl}">${params.feedUrl}</a>
                         </p>
@@ -135,26 +143,23 @@ class AccountController  {
                         </p>
 
                     """
-                        }
+						}
 
-                    } catch (Exception e) { log.error "Could not add feed" , e }
-                    flash.message = "Successfully added new feed: ${feedInfo.title}. Your Feed needs to be approved by a moderator to become visible"
+					} catch (Exception e) { log.error "Could not add feed" , e }
+					flash.message = "Successfully added new feed: ${feedInfo.title}. Your Feed needs to be approved by a moderator to become visible"
 
-                } else {
-                    feedService.updateFeed(blog)
-                    blog.status = "ACTIVE"
-                    flash.message = "Successfully added new feed: ${feedInfo.title}"
-                }
-            } else {
-                flash.message = "Error adding feed: ${blog?.errors}"
-            }
+				} else {
+					feedService.updateFeed(blog)
+					blog.status = "ACTIVE"
+					flash.message = "Successfully added new feed: ${feedInfo.title}"
+				}
+			} else {
+				flash.message = "Error adding feed: ${blog?.errors}"
+			}
+		}
 
-
-        } else {
-            flash.message = "Could not determine feed url"
-        }
-        redirect(action: 'edit')
-    }
+		redirect(action: 'edit')
+	}
 
 
     def updateFeed = {

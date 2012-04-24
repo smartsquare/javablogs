@@ -127,12 +127,18 @@ class FeedService {
 
 
     // takes a URL and returns ROME feed info
-    def getFeedInfo(feedUrlStr, boolean translate = false) {
+    def getFeedInfo(feedUrlStr, boolean translate = false) throws InvalidFeedException {
+		def feedInfo = null
 
-        def feedStr = getHtmlForUrl(feedUrlStr)
-        return getFeedInfoFromHtml(feedStr, translate)
+		try {
+			def feedStr = getHtmlForUrl(feedUrlStr)
+			feedInfo = getFeedInfoFromHtml(feedStr, translate)
+		}
+		catch(Exception e) {
+			throw new InvalidFeedException("The given feed URL does not point to a valid feed.", e)
+		}
 
-
+		return feedInfo
     }
 
 

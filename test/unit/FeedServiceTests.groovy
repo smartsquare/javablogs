@@ -3,6 +3,8 @@ import grails.test.mixin.*
 import org.junit.Test
 import org.springframework.cache.ehcache.EhCacheFactoryBean
 
+import com.sun.syndication.io.ParsingFeedException
+
 @TestFor(FeedService)
 @Mock([Blog, BlogEntry])
 class FeedServiceTests {
@@ -12,23 +14,23 @@ class FeedServiceTests {
 		String.metaClass.encodeAsMD5 = { return delegate }
 	}
 
-	@Test
-	public void testGetHtmlForUrl() throws Exception {
+	@Test(expected = InvalidFeedException.class)
+	public void testFeedInfoInvalidFeed() throws Exception {
 		// given
-		String url = "http://www.google.de"
+		String url = "invalidUrl"
 
 		// when
-		def html = service.getHtmlForUrl(url)
-
-		// then
-		assertNotNull(html)
-		assert html =~ "<html.*>"
+		service.getFeedInfo(url)
 	}
 
 	@Test
-	public void testGetFeedInfoFromHtml() throws Exception {
+	public void testGetFeedInfo() throws Exception {
+		service.metaClass.getHtmlForUrl = { feedUrlStr ->
+			return feedStr
+		}
+		
 		// when
-		def feedInfo = service.getFeedInfoFromHtml(feedStr, false)
+		def feedInfo = service.getFeedInfo("some_url_to_blog_feed")
 
 		// then
 		assertEquals('Grails New Plugins Feed', feedInfo.title)
@@ -57,17 +59,17 @@ class FeedServiceTests {
 	@Test
 	public void testUpdateLists() throws Exception {
 		defineBeans { listCache(EhCacheFactoryBean) }
-		
+
 		// given
 		def feedInfo = new FeedInfo(title: "Grails ML", description: "Grails ML", author: "Max Muster", type: "rss_2.0")
-		def feedEntry = new FeedEntry(title: "Some grails problem", description: "Some grails problem", 
-			summary: "Some grails problem", link: "http://www.smartsquare.de/ML", author: "Daniel Rosowski", 
-			publishedDate: new Date())
-		feedInfo.entries << feedEntry		
-		service.metaClass.getFeedInfo = { String url, boolean b -> 
-			return feedInfo 
+		def feedEntry = new FeedEntry(title: "Some grails problem", description: "Some grails problem",
+				summary: "Some grails problem", link: "http://www.smartsquare.de/ML", author: "Daniel Rosowski",
+				publishedDate: new Date())
+		feedInfo.entries << feedEntry
+		service.metaClass.getFeedInfo = { String url, boolean b ->
+			return feedInfo
 		}
-		
+
 		// when
 		def entries = service.updateLists()
 
