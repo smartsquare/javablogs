@@ -15,6 +15,7 @@ class EntriesServiceTests {
 		entries.each {
 			assertNotNull(it.save())
 		}
+		defineBeans { entriesCache(EhCacheFactoryBean) }
 	}
 
 	@Test
@@ -28,8 +29,6 @@ class EntriesServiceTests {
 
 	@Test
 	public void testGetEndlessEntries() throws Exception {
-		defineBeans { entriesCache(EhCacheFactoryBean) }
-
 		// when
 		def result = service.getEndlessEntries([:])
 
@@ -40,8 +39,6 @@ class EntriesServiceTests {
 
 	@Test
 	public void testGetRecentEntries() throws Exception {
-		defineBeans { entriesCache(EhCacheFactoryBean) }
-
 		// when
 		def result = service.getRecentEntries(1)
 
@@ -52,8 +49,6 @@ class EntriesServiceTests {
 
 	@Test
 	public void testGetPopularEntries() throws Exception {
-		defineBeans { entriesCache(EhCacheFactoryBean) }
-
 		// when
 		def result = service.getPopularEntries()
 
