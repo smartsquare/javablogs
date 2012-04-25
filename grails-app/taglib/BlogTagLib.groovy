@@ -1,11 +1,10 @@
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
-import net.sf.ehcache.Ehcache
 import net.sf.ehcache.Element
 
 class BlogTagLib {
 
     def recentBlogsCache
     def recentStatsCache
+	def grailsApplication
 
     def summariseEntry = { attrs ->
 
@@ -80,7 +79,7 @@ class BlogTagLib {
 
     def translate = { attrs ->
 
-        if (ConfigurationHolder.config.translate.enabled) {
+        if (grailsApplication.config.translate.enabled) {
 
             def entry = attrs.entry
 
@@ -207,10 +206,10 @@ class BlogTagLib {
 
     def feedburner = { attr ->
 
-        if (ConfigurationHolder.config.http.usefeedburner) {
+        if (grailsApplication.config.http.usefeedburner) {
             out << """
 			<p style='margin-top: 5px'>
-					<img src="${ConfigurationHolder.config.http.feedburner_stats_url}" height="26" width="88" style="border:0" alt="Feedburner Stats" />
+					<img src="${grailsApplication.config.http.feedburner_stats_url}" height="26" width="88" style="border:0" alt="Feedburner Stats" />
 			</p>
 			"""
         }

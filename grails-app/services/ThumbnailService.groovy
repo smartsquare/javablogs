@@ -1,4 +1,3 @@
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import net.sf.ehcache.Ehcache
 import net.sf.ehcache.Element
 import org.apache.commons.httpclient.methods.GetMethod
@@ -18,6 +17,7 @@ import java.io.ByteArrayInputStream
  */
 public class ThumbnailService {
 
+	def grailsApplication
     def thumbCache
     Ehcache pendingCache
     byte[] noThumbAvailablePic
@@ -49,15 +49,15 @@ public class ThumbnailService {
         sdf.setTimeZone(tz)
         def date = sdf.format(new Date())
 
-        def user = SystemConfig.findBySettingName("thumbnail.user")?.settingValue // ConfigurationHolder.config.thumbnail.user
-        def apiKey = SystemConfig.findBySettingName("thumbnail.apiKey")?.settingValue // ConfigurationHolder.config.thumbnail.apiKey
+        def user = SystemConfig.findBySettingName("thumbnail.user")?.settingValue
+        def apiKey = SystemConfig.findBySettingName("thumbnail.apiKey")?.settingValue
         log.debug("Setting date to ${date}")
         
         def stringToHash = "${date}${url}${apiKey}"
         def hash = stringToHash.encodeAsMD5()
         log.debug("Hash is ${hash} of ${date}${url}${apiKey}")
 
-        GetMethod get = new GetMethod(ConfigurationHolder.config.thumbnail.endpointurl)
+        GetMethod get = new GetMethod(grailsApplication.config.thumbnail.endpointurl)
         def nvp = [
             new NameValuePair("user", user.toString()),
             new NameValuePair("url", url.toString()),
@@ -69,10 +69,10 @@ public class ThumbnailService {
 
         HttpClient httpclient = new HttpClient()
 
-		if (ConfigurationHolder.config.http.useproxy) {
+		if (grailsApplication.config.http.useproxy) {
 	        def hostConfig = httpclient.getHostConfiguration()
-	        hostConfig.setProxy(ConfigurationHolder.config.http.host, ConfigurationHolder.config.http.port as int)
-	        log.warn("Setting proxy to [" + ConfigurationHolder.config.http.host + "]")
+	        hostConfig.setProxy(grailsApplication.config.http.host, grailsApplication.config.http.port as int)
+	        log.warn("Setting proxy to [" + grailsApplication.config.http.host + "]")
 	    }
 
         httpclient.executeMethod(get)
@@ -102,7 +102,7 @@ public class ThumbnailService {
  
     public byte[] getFile(String id, String thumbSize) {
 
-        if (!ConfigurationHolder.config.thumbnail.enabled) {
+        if (!grailsApplication.config.thumbnail.enabled) {
             log.debug("Thumbnail service disabled")
             return new byte[0]
         }

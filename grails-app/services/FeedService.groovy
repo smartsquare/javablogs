@@ -1,10 +1,8 @@
 import org.apache.commons.httpclient.*
 import org.apache.commons.httpclient.methods.*
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 
-import net.sf.ehcache.Ehcache
 import net.sf.ehcache.Element
 
 class FeedService {
@@ -12,6 +10,7 @@ class FeedService {
     def listCache
     def pendingCache
     def tweetCache
+	def grailsApplication
     ThumbnailService thumbnailService
     TranslateService translateService
     TwitterService twitterService
@@ -26,21 +25,21 @@ class FeedService {
         def clientParams = client.getParams()
         clientParams.setParameter(org.apache.commons.httpclient.params.HttpClientParams.HTTP_CONTENT_CHARSET, "UTF-8");
 
-        if (ConfigurationHolder.config.http.useproxy) {
+        if (grailsApplication.config.http.useproxy) {
             def hostConfig = client.getHostConfiguration()
-            hostConfig.setProxy(ConfigurationHolder.config.http.host, ConfigurationHolder.config.http.port as int)
-            log.warn("Setting proxy to [" + ConfigurationHolder.config.http.host + "]")
+            hostConfig.setProxy(grailsApplication.config.http.host, grailsApplication.config.http.port as int)
+            log.warn("Setting proxy to [" + grailsApplication.config.http.host + "]")
         }
 
-        if (ConfigurationHolder.config.http.useragent) {
+        if (grailsApplication.config.http.useragent) {
             clientParams.setParameter(org.apache.commons.httpclient.params.HttpClientParams.USER_AGENT,
-                ConfigurationHolder.config.http.useragent)
+                grailsApplication.config.http.useragent)
         }
 
-        if (ConfigurationHolder.config.http.timeout) {
+        if (grailsApplication.config.http.timeout) {
 
             clientParams.setParameter(org.apache.commons.httpclient.params.HttpClientParams.SO_TIMEOUT,
-                ConfigurationHolder.config.http.timeout)
+                grailsApplication.config.http.timeout)
         }
 
         def mthd = new GetMethod(url)
@@ -100,7 +99,7 @@ class FeedService {
                 author: e.author ? e.author : "")
 
             //TODO ignore stuff older than X days
-            def trimEntriesOlderThanXdays = ConfigurationHolder.config.feeds.ignoreFeedEntriesOlderThan
+            def trimEntriesOlderThanXdays = grailsApplication.config.feeds.ignoreFeedEntriesOlderThan
             if (trimEntriesOlderThanXdays) {
                 def trimTime = new Date().minus(trimEntriesOlderThanXdays) // X days ago
                 if (publishedDate && publishedDate < trimTime) {
@@ -182,11 +181,11 @@ class FeedService {
 							
                             try {
 	
-                                if (ConfigurationHolder.config.twitter.enabled) {
+                                if (grailsApplication.config.twitter.enabled) {
                                     twitterService.sendTweet("${be.title} -- ${be.link} -- ${blog.title}")
                                 }
 
-                                if (ConfigurationHolder.config.thumbnail.enabled) {
+                                if (grailsApplication.config.thumbnail.enabled) {
                                     // be.thumbnail = thumbnailService.fetchThumbnail(be.link)
                                     // log.debug "Adding to pending thumbs cache: ${be?.link}"
                                     //pendingCache.put( new Element(be.link, be.id))
@@ -233,7 +232,7 @@ class FeedService {
         log.info("Now polling: [$blog.title]")
         FeedInfo fi
         try {
-            fi = getFeedInfo(blog.feedUrl, ConfigurationHolder.config.translate.enabled)
+            fi = getFeedInfo(blog.feedUrl, grailsApplication.config.translate.enabled)
         } catch (Exception e) {
             log.warn("Could not parse feed [$blog.feedUrl]", e)
             blog.lastError = "Error parsing [$blog.feedUrl] " + e.message
@@ -266,9 +265,9 @@ class FeedService {
 
         // Limit to 5 updated blogs per minute. Could probably up this significantly
         // by going multithreaded...
-        if (feedsToUpdate.size() > ConfigurationHolder.config.http.maxpollsperminute) {
-            log.warn("${feedsToUpdate.size()} exceeds max for this minute. Limiting update to ${ConfigurationHolder.config.http.maxpollsperminute}.")
-            feedsToUpdate = feedsToUpdate[0..ConfigurationHolder.config.http.maxpollsperminute - 1]
+        if (feedsToUpdate.size() > grailsApplication.config.http.maxpollsperminute) {
+            log.warn("${feedsToUpdate.size()} exceeds max for this minute. Limiting update to ${grailsApplication.config.http.maxpollsperminute}.")
+            feedsToUpdate = feedsToUpdate[0..grailsApplication.config.http.maxpollsperminute - 1]
         }
 
         feedsToUpdate.each {blog ->
@@ -285,7 +284,7 @@ class FeedService {
 
         def allEntries = []
 
-        ConfigurationHolder.config.lists.each {name, url ->
+        grailsApplication.config.lists.each {name, url ->
 
             log.info("Updating list [$name] from [$url]")
             def feed = getFeedInfo(url, false)
@@ -342,7 +341,7 @@ class FeedService {
 
     def updateTweets() {
 
-        def tweetFeed = getFeedInfo(ConfigurationHolder.config.tweets.url, false)
+        def tweetFeed = getFeedInfo(grailsApplication.config.tweets.url, false)
 
         def allEntries = tweetFeed.entries.collect { entry ->
             // entry.description = entry.description.replaceFirst("[^:]+:\\s*", "")
