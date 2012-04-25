@@ -1,3 +1,4 @@
+@TestFor(BlogTagLib)
 class BlogTagLibTests extends GroovyTestCase {
 
     void testNiceDate() {

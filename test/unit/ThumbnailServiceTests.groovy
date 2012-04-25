@@ -1,39 +1,43 @@
+import grails.test.mixin.Mock
+import grails.test.mixin.TestFor
 
-import grails.test.GrailsUnitTestCase
+import net.sf.ehcache.Element
 
-class ThumbnailServiceTests extends GrailsUnitTestCase {
+import org.junit.Before
+import org.junit.Test
 
-    protected void setUp() {
-        super.setUp()
-        loadCodec(org.codehaus.groovy.grails.plugins.codecs.MD5Codec)
-        mockLogging(ThumbnailService.class, true)
-    }
+@TestFor(ThumbnailService)
+@Mock(SystemConfig)
+class ThumbnailServiceTests {
 
-    protected void tearDown() {
-        super.tearDown()
-    }
+	def thumbnailUser = ""
+	def thumbnailKey = ""
 
-    void testImageFetch() {
+	@Before
+	public void setUp() {
+		mockCodec(org.codehaus.groovy.grails.plugins.codecs.MD5Codec)
+		service.thumbCache = []as Set
+		service.thumbCache.metaClass.put { element ->
+			delegate.add(element)
+		}
 
-      mockConfig('''
+		if(!thumbnailUser || !thumbnailKey) {
+			fail("Need to set thumbnail API user and key first!")
+		}
+		new SystemConfig(settingName: "thumbnail.user", settingValue: thumbnailUser).save()
+		new SystemConfig(settingName: "thumbnail.key", settingValue: thumbnailKey).save()
+	}
 
-
-thumbnail {
-    enabled=true
-    // user = your_user_id
-    // apiKey = your_api_key
-    endpointurl = "http://webthumb.bluga.net/easythumb.php"
-
-}
-
-''')
-      ThumbnailService ts = new ThumbnailService()
-      ts.thumbCache = new Expando()
-      ts.thumbCache.put = { elementToCache ->
-        println "Cached stuff"
-      }
-      ts.fetchThumbnailsToCache 1, "http://blogs.bytecode.com.au/glen"
-
-
-    }
+	@Test
+	public void testImageFetch() {
+		// when
+		service.fetchThumbnailsToCache 1, "http://www.smartsquare.de"
+		
+		// then
+		def iterator = service.thumbCache.iterator()
+		Element element = iterator.next()
+		assertTrue(element.getKey().toString().endsWith("-small"))
+		element = iterator.next()
+		assertTrue(element.getKey().toString().endsWith("-large"))
+	}
 }
