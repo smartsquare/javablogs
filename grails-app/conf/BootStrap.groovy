@@ -28,7 +28,7 @@ class BootStrap {
         if (SystemConfig.count() == 0) {
 
             def defaultConfig = [
-                "thumbnail.user" : "1234",
+                "thumbnail.user" : "youruser",
                 "thumbnail.apiKey" : "yourkey",
 
                 "translate.apikey" : "yourKey",
@@ -51,7 +51,7 @@ class BootStrap {
         if (Account.count() == 0) {
         	
         	def admin = new Account(userid: "admin", role: "admin",
-        	      status: "ACTIVE", email: "glen@bytecode.com.au")
+        	      status: "ACTIVE", email: "daniel.rosowski@gmx.de")
         
         	def password =  "admin".encodeAsSHA1Bytes().encodeBase64()
         	println "Admin password is encoded to ${password}"
