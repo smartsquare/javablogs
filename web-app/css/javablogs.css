@@ -134,6 +134,23 @@ h1 {
 	
 }
 
+h1#title {
+	padding-top: 30px;
+	padding-left: 20px;
+	font-size: 300%;
+	color: white;
+	font-style: italic;
+	font-family: fantasy;
+	border-bottom: none;
+}
+h2#subtitle {
+	padding-left: 30px;
+	padding-bottom: 18px;
+	color: white;
+	font-style: italic;
+	font-family: serif;
+}
+
 
 
 /* Stuff on the main blog entries page */
@@ -185,7 +202,7 @@ span.translateLink {
 
 /* Form Fields */
 
-div.dialog label,input,td {
+div.dialog label,input,td,th {
 		font-size: 114%;
 }
 
@@ -212,14 +229,15 @@ h2 {
 .blogTable {
 	font-size: 87%;
 	width: 100%;
+	padding: 3px;
+}
+
+.blogTable th {
+	font-weight: bold;
 }
 
 .blogTable tr {
 	height: 2em;	
-}
-
-.blogTable td {
-	padding: 3px;	
 }
 
 

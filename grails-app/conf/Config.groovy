@@ -1,21 +1,3 @@
-// locations to search for config files that get merged into the main config
-// config files can either be Java properties files or ConfigSlurper scripts
-
-// grails.config.locations = [ "classpath:${appName}-config.properties",
-//                             "classpath:${appName}-config.groovy",
-//                             "file:${userHome}/.grails/${appName}-config.properties",
-//                             "file:${userHome}/.grails/${appName}-config.groovy"]
-
-// if(System.properties["${appName}.config.location"]) {
-//    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
-// }
-
-// from controllers:   def propValue = grailsApplication.config.my.property
-// from services: ConfigurationHolder.config.my.custom.data
-// import org.codehaus.groovy.grails.commons.ConfigurationHolder
-
-// grails.config.locations = [ "file:/opt/groovyblogs/groovyblogs-config.properties" ]
-
 grails.mime.file.extensions = true // enables the parsing of file extensions from URLs into the request format
 
 grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
@@ -50,8 +32,6 @@ mq {
 
 thumbnail {
     enabled=true
-    // user = your_user_id
-    // apiKey = your_api_key
     endpointurl = "http://webthumb.bluga.net/easythumb.php"
 }
 
@@ -65,13 +45,12 @@ cache {
 
 feeds {
     ignoreFeedEntriesOlderThan = 30 // days
-    moderate = true
-    moderator_email = "glen@bytecode.com.au"
-    // moderator_email = you@yourhost.com
+    moderate = false
+    moderator_email = "daniel.rosowski@gmxde"
 }
 
 grails.mail.host =  "localhost"
-grails.mail.default.from = "glen@bytecode.com.au"
+grails.mail.default.from = "daniel.rosowski@gmx.de"
 
 http {
 	/*
@@ -80,8 +59,8 @@ http {
     port=3128
     */
     timeout=10*1000
-    useragent="GroovyBlogs/1.2 (http://www.groovyblogs.org)"
-    usefeedburner=true
+    useragent="JavaBlogs/1.0 (http://www.javablogs.de)"
+    usefeedburner=false
     maxpollsperminute=7
     feedburner_atom="http://feeds.feedburner.com/groovyblogs"
     feedburner_rss="http://feeds.feedburner.com/groovyblogs"
@@ -98,12 +77,7 @@ tweets.url = "http://feeds.groovytweets.org/latestgroovytweets"
 translate {
     enabled=false
     langUrl="https://ajax.googleapis.com/ajax/services/language/detect?v=1.0&q="
-    //langUrl="http://www.google.com/uds/GlangDetect?v=1.0&q="
-    // apikey = yourkey
     url='http://translate.google.com/translate?hl=${to}&sl=auto&tl=${to}&u=${url}'
-    // http://translate.google.com/translate?u=http%3A%2F%2Fgroovy.org.es%2Fhome%2Fstory%2F12&langpair=es%7Cen&hl=en&ie=UTF-8&oe=UTF-8&prev=%2Flanguage_tools
-   
-	
 }
 
 
@@ -112,7 +86,7 @@ log4j = {
 	
 	appenders {
 		rollingFile name: "gb",
-					file: "groovyblogs.log",
+					file: "javablogs.log",
 					maxFileSize: "10MB",
 					layout: pattern(conversionPattern: '%d %p %c{2} %m%n')
 					
