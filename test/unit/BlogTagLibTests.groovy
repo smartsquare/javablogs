@@ -101,12 +101,12 @@ class BlogTagLibTests extends GroovyTestCase {
 		// given
 		Calendar cal = Calendar.getInstance()
 		cal.add(Calendar.HOUR, 1)
-		cal.add(Calendar.MINUTE, 1)
+		cal.add(Calendar.MINUTE, 46)
 
 		// when
 		def out = applyTemplate('<g:dateFromNow date="${date}" />', [date: cal.time])
 
 		// then
-		assertEquals "In 1 Stunde", out
+		assertEquals "In 1 Stunde 45 Minuten", out
 	}
 }

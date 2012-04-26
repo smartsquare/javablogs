@@ -34,19 +34,19 @@ class BlogTagLib {
 
         calc = Math.floor(diff / day)
         if (calc > 0) {
-            niceTime += calc + " Tag" + (calc > 1 ? "en" : "")
+            niceTime += calc + " Tag" + (calc > 1 ? "en " : " ")
             diff = diff % day
         }
 
         calc = Math.floor(diff / hour)
         if (calc > 0) {
-            niceTime += calc + " Stunde" + (calc > 1 ? "n" : "")
+            niceTime += calc + " Stunde" + (calc > 1 ? "n " : " ")
             diff = diff % hour
         }
 
         calc = Math.floor(diff / minute)
         if (calc > 0) {
-            niceTime += calc + " Minute" + (calc > 1 ? "n" : "")
+            niceTime += calc + " Minute" + (calc > 1 ? "n " : " ")
             diff = diff % minute
         }
 
@@ -56,7 +56,7 @@ class BlogTagLib {
             niceTime = (date.getTime() > now.getTime() ? "In " : "Vor ") + niceTime 
         }
 
-        return niceTime
+        return niceTime.trim()
 
     }
 
