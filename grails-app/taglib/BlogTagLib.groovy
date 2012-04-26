@@ -145,9 +145,9 @@ class BlogTagLib {
             out << cacheStats
         } else {
             def newStats = """
-                <p>${Blog.count()} Blogs Aggregated</p>
-                <p>${BlogEntry.count()} Entries Indexed</p>
-                <p>${BlogEntry.findAllByDateAddedGreaterThan(new Date().minus(1)).size()} Entries Last 24 hours</p>
+                <p>${Blog.count()} Blogs aggregiert</p>
+                <p>${BlogEntry.count()} Eintr&auml;ge indiziert</p>
+                <p>${BlogEntry.findAllByDateAddedGreaterThan(new Date().minus(1)).size()} Eintr&auml;ge in den letzten 24 Stunden</p>
 			"""
             out << newStats
             recentStatsCache.put(new Element("recentStats", newStats))

@@ -70,7 +70,7 @@ class ChartController {
             false                     // urls
         )
     	
-        chart.setTitle(new TextTitle("Entries Last 7 Days", new Font("SansSerif", Font.BOLD, 12)))
+        chart.setTitle(new TextTitle("Einträge der letzten 7 Tage", new Font("SansSerif", Font.BOLD, 12)))
 
         CategoryPlot plot = (CategoryPlot) chart.getPlot()
         plot.setForegroundAlpha(0.5f)

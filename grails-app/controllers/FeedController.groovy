@@ -72,8 +72,6 @@ class FeedController {
             def blogEntries = BlogEntry.findAllByDateAddedGreaterThan(
                 aWhileAgo, [ sort: 'dateAdded', order: "desc" ] )
 						
-            blogEntries = blogEntries.findAll { entry -> entry.isGroovyRelated() }
-
             // limit entries in feed?
             //blogEntries = EntriesController.limitEntries(blogEntries)
 

@@ -5,7 +5,7 @@ import javax.servlet.http.Cookie
 
 class AccountController  {
 	
-	public static final String INVALID_FEED_URL = "No valid XML RSS or Atom feed found at given URL."
+	public static final String INVALID_FEED_URL = "Die angegebene Adresse enthält keinen gültigen RSS/Atom Feed."
 	
     FeedService feedService
 
@@ -21,7 +21,7 @@ class AccountController  {
         def account = getCurrentUser() // Account.findByUserid( session.account.id )
 
         if(!account) {
-            flash.message = "Account not found with id ${account.id}"
+            flash.message = "Das Benutzerkonto ${account.id} wurde nicht gefunden."
             redirect(action:'list')
         }
         else {
@@ -38,7 +38,7 @@ class AccountController  {
             account.password = params.password.encodeAsSHA1Bytes().encodeBase64()
 
             if(account.save()) {
-            	flash.message = "Updated successfully"
+            	flash.message = "Aktualisierung erfolgreich"
                 redirect(action:'edit', model:[account:account])
             }
             else {
@@ -46,7 +46,7 @@ class AccountController  {
             }
         }
         else {
-            flash.message = "Account not found with id ${params.id}"
+            flash.message = "Das Benutzerkonto ${params.id} wurde nicht gefunden."
             redirect(action:'edit',id:params.id)
         }
     }
@@ -87,13 +87,13 @@ class AccountController  {
 
                 blog.delete()
 
-                flash.message = "Successfully deleted blog ${blog.title}"
+                flash.message = "Der Blog '${blog.title}' wurde erfolgreich gel&ouml;scht."
             } else {
-                flash.message = "You don't have rights to delete that blog"
+                flash.message = "Du hast keine Berechtigung diesen Blog zu l&ouml;schen."
             }
 
         } else {
-            flash.message = "Blog not found with id ${params.id}"
+            flash.message = "Der Blog ${params.id} wurde nicht gefunden."
         }
         redirect(action: 'edit')
     }
@@ -129,32 +129,32 @@ class AccountController  {
 					try {
 						sendMail {
 							to grailsApplication.config.feeds.moderator_email
-							subject "groovyblogs: Feed approval for ${feedInfo.title}"
+							subject "javablogs: Feed approval for ${feedInfo.title}"
 							body """
                         <p>
                         Request to approve URL: ${feedInfo.title} at url <a href="${params.feedUrl}">${params.feedUrl}</a>
                         </p>
                         <p>
-                        <a href="http://www.groovyblogs.org/account/approveFeed/${blog.id}?password=${grailsApplication.config.feeds.approval_password}">Approve</a>
+                        <a href="http://www.javablogs.de/account/approveFeed/${blog.id}?password=${grailsApplication.config.feeds.approval_password}">Approve</a>
 
                         for ${blog.account.email} or
 
-                        <a href="http://www.groovyblogs.org/account/removeFeed/${blog.id}?password=${grailsApplication.config.feeds.approval_password}">Delete</a>
+                        <a href="http://www.javablogs.de/account/removeFeed/${blog.id}?password=${grailsApplication.config.feeds.approval_password}">Delete</a>
                         </p>
 
                     """
 						}
 
 					} catch (Exception e) { log.error "Could not add feed" , e }
-					flash.message = "Successfully added new feed: ${feedInfo.title}. Your Feed needs to be approved by a moderator to become visible"
+					flash.message = "Neuer Blogfeed hinzugef&uuml;gt: ${feedInfo.title}. Der Blog muss noch durch einen Administrator genehmigt werden und ist dann sichtbar."
 
 				} else {
 					feedService.updateFeed(blog)
 					blog.status = "ACTIVE"
-					flash.message = "Successfully added new feed: ${feedInfo.title}"
+					flash.message = "Neuer Blogfeed hinzugef&uuml;gt: ${feedInfo.title}"
 				}
 			} else {
-				flash.message = "Error adding feed: ${blog?.errors}"
+				flash.message = "Fehler beim Hinzuf&uuml;gen des Blogfeeds: ${blog?.errors}"
 			}
 		}
 
@@ -168,76 +168,11 @@ class AccountController  {
         if (blog && blog.status == "ACTIVE") {
             log.info("Updating Feed: [${blog?.feedUrl}]")
             def feedInfo = feedService.updateFeed(blog)
-            flash.message = "Successfully updated ${blog.title}"
+            flash.message = "Blogfeed erfolgreich aktualisiert: ${blog.title}"
         } else {
-            flash.message = "Unapproved blog, or could not determine blog id"
+            flash.message = "Der Blog wurde noch nicht genehmigt, oder der Blog wurde nicht gefunden."
         }
         redirect(action: 'edit')
-
-    }
-
-    def testFeed = {
-
-    	def feedUrl = params.feedUrl
-    	log.debug("Testing Feed: [$feedUrl]")
-    	if (feedUrl) {
-            def feedInfo = feedService.getFeedInfo(feedUrl)
-            log.debug("Returned $feedInfo.title $feedInfo.description $feedInfo.type")
-            def writer = new StringWriter()
-            def html = new groovy.xml.MarkupBuilder(writer)
-
-            // Could do all this directly in a render() call but it's harder to debug
-            html.div {
-                div(id: "iconDeets") {
-                    p(style: 'margin-top: 3px; margin-bottom: 3px') {
-
-                        img(src: "../images/accept.png",
-                            alt: "This is a groovy related post")
-                        span("Groovy/Grails Post ")
-                        img(src: "../images/cancel.png",
-                            alt: "Not a groovy related post",
-                            style: "margin-left: 5px;")
-                        span("Non Groovy/Grails Post (won't be aggregated) ")
-                    }
-                }
-
-                div(id: "blogInfo") {
-                    div(id: "blogTitle") { p(feedInfo?.title) }
-                    div(id: "blogDesc")  { p(feedInfo?.description) }
-                    div(id: "blogType")  { p(feedInfo?.type) }
-                    div(id: "blogEntries") {
-                        for (e in feedInfo?.entries) {
-                            div(class: "blogEntry") {
-                                div(class: "blogEntryTitle") {
-
-                                    p {
-                                        def isGroovyRelated = new BlogEntry(title: e.title, description: e.description).isGroovyRelated()
-                                        img(src:
-                                            isGroovyRelated ? "../images/accept.png" : "../images/cancel.png",
-                                            alt:
-                                            isGroovyRelated ? "This is a groovy related post" : "Not a groovy related post",
-                                        )
-
-                                        span(e?.title)
-                                    }
-                                }
-                                div(class: "blogEntryDesc") { p(e?.summary) }
-                            }
-                        }
-
-                    }
-                }
-
-            }
-
-            log.debug(writer.toString())
-
-            render(writer.toString())
-
-
-    	} else {
-            render "You need to provide a URL for me"
-    	}
 
     }
 

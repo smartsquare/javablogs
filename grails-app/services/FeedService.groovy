@@ -141,91 +141,80 @@ class FeedService {
     }
 
 
-    void updateFeed(Blog blog, FeedInfo fi) {
+	void updateFeed(Blog blog, FeedInfo fi) {
 
-        //def existingEntries = blog.blogEntries
+		//def existingEntries = blog.blogEntries
 
-        // we iterate in reverse to ensure newest entries have the newest timestamps
-        fi?.entries?.reverseEach {entry ->
+		// we iterate in reverse to ensure newest entries have the newest timestamps
+		fi?.entries?.reverseEach {entry ->
 
-            log.debug("Looking for $entry.link")
-            //def existing = existingEntries.find { entry.link == it.link }
-            def existing = BlogEntry.findByHash(entry.summary.encodeAsMD5().toString()) || BlogEntry.findByLink(entry.link)
-            log.debug("Existing? " + existing)
-            ///if (!BlogEntry.findByLink(entry.link)) {
-            if (!existing) {
+			log.debug("Looking for $entry.link")
+			//def existing = existingEntries.find { entry.link == it.link }
+			def existing = BlogEntry.findByHash(entry.summary.encodeAsMD5().toString()) || BlogEntry.findByLink(entry.link)
+			log.debug("Existing? " + existing)
+			///if (!BlogEntry.findByLink(entry.link)) {
+			if (!existing) {
 
-                //log.debug("Creating entry with title [$entry.title] and link [$entry.link]")
+				//log.debug("Creating entry with title [$entry.title] and link [$entry.link]")
 
-                BlogEntry be = new BlogEntry(title: entry.title, link: entry.link,
-                    description: entry.description,
-                    summary: entry.summary, language: entry.language,
-                    hash: entry.summary.encodeAsMD5())
+				BlogEntry be = new BlogEntry(title: entry.title, link: entry.link,
+						description: entry.description,
+						summary: entry.summary, language: entry.language,
+						hash: entry.summary.encodeAsMD5())
 
+				try {
+					blog.addToBlogEntries(be)
+					if (!be.validate()) {
+						log.warn("Validation failed updating blog entry [$be.title]")
+						be.errors.allErrors.each { log.warn(it) }
+					} else {
+						be.save(flush: true)
+						blog.save(flush: true)
 
-                if (be.isGroovyRelated()) {
-                    //log.info("Added new entry: $be.title")
+						try {
 
-                    try {
+							if (grailsApplication.config.twitter.enabled) {
+								twitterService.sendTweet("${be.title} -- ${be.link} -- ${blog.title}")
+							}
 
+							if (grailsApplication.config.thumbnail.enabled) {
+								// be.thumbnail = thumbnailService.fetchThumbnail(be.link)
+								// log.debug "Adding to pending thumbs cache: ${be?.link}"
+								//pendingCache.put( new Element(be.link, be.id))
+							}
+						} catch (Exception e) {
+							log.debug "Error during thumbnail collection", e
 
-                        blog.addToBlogEntries(be)
-                        if (!be.validate()) {
-                            log.warn("Validation failed updating blog entry [$be.title]")
-                            be.errors.allErrors.each {
-                                log.warn(it)
-                            }
-                        } else {
-                            be.save(flush: true)
-                            blog.save(flush: true)
-							
-                            try {
-	
-                                if (grailsApplication.config.twitter.enabled) {
-                                    twitterService.sendTweet("${be.title} -- ${be.link} -- ${blog.title}")
-                                }
+						}
 
-                                if (grailsApplication.config.thumbnail.enabled) {
-                                    // be.thumbnail = thumbnailService.fetchThumbnail(be.link)
-                                    // log.debug "Adding to pending thumbs cache: ${be?.link}"
-                                    //pendingCache.put( new Element(be.link, be.id))
-                                }
-                            } catch (Exception e) {
-                                log.debug "Error during thumbnail collection", e
+					}
 
-                            }
-							
-                        }
+				} catch (Throwable t) {
+					t.printStackTrace()
+				}
 
-                    } catch (Throwable t) {
-                        t.printStackTrace()
-                    }
-
-                    log.debug("Saved entry with title [$be.title]")
+				log.debug("Saved entry with title [$be.title]")
 
 
 
 
-                } else {
-                    log.debug("Ignoring non-groovy blog entry: $be.title")
-                }
-            }
+			} else {
+				log.debug("Ignoring non-groovy blog entry: $be.title")
+			}
+		}
 
-        }
-        blog.lastPolled = new Date()
-        long nextPollTime = new Date().getTime() + blog.pollFrequency * 60 * 60 * 1000
-        blog.nextPoll = new Date(nextPollTime)
-        if (!blog.validate()) {
-            log.warn("Validation failed updating blog [$blog.title]")
-            blog.errors.allErrors.each {
-                log.warn(it)
-            }
-        } else {
-            log.debug("Updated poll time for blog: " + blog.save(flush: true))
-        }
-        log.debug("Next poll of [$blog.title] at $blog.nextPoll")
+		blog.lastPolled = new Date()
+		long nextPollTime = new Date().getTime() + blog.pollFrequency * 60 * 60 * 1000
+		blog.nextPoll = new Date(nextPollTime)
+		if (!blog.validate()) {
+			log.warn("Validation failed updating blog [$blog.title]")
+			blog.errors.allErrors.each { log.warn(it) }
+		} else {
+			log.debug("Updated poll time for blog: " + blog.save(flush: true))
+		}
+		log.debug("Next poll of [$blog.title] at $blog.nextPoll")
 
-    }
+	}
 
     void updateFeed(Blog blog) {
 

@@ -13,20 +13,20 @@
     <table>
       <tbody>
         <tr>
-          <td>Username:</td>
+          <td>Benutzerkennung:&nbsp;</td>
           <td><input type="text" name="username" value="${username}" /></td>
         </tr>
         <tr>
-          <td>Password:</td>
+          <td>Passwort:&nbsp;</td>
           <td><input type="password" name="password" value="" /></td>
         </tr>
         <tr>
-          <td>Remember me?:</td>
+          <td>Login merken?:&nbsp;</td>
           <td><g:checkBox name="rememberMe" value="${rememberMe}" /></td>
         </tr>
         <tr>
           <td />
-          <td><input type="submit" value="Sign in" /></td>
+          <td><input type="submit" value="Login" /></td>
         </tr>
       </tbody>
     </table>

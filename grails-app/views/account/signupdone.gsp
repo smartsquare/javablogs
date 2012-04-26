@@ -3,11 +3,11 @@
     <head>
          <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
          <meta name="layout" content="main" />
-         <title>Sign Complete</title>         
+         <title>Benutzerkonto erstellen</title>         
     </head>
     <body>
         <div id="content">
-           <h1>Signup Underway</h1>
+           <h1>Fast fertig...</h1>
            
            <g:hasErrors bean="${account}">
                 <div class="errors">
@@ -15,15 +15,11 @@
                 </div>
            </g:hasErrors>
            <p>
-           Hi ${account.userid}, thanks for registering with groovyblogs.org. We
-           have sent a comfirmation email to <b>${account.email}</b> which contains
-           an activation link for you to complete the process.
+           Hallo ${account.userid}, danke für deine Registrierung bei javablogs.de. 
+           Eine E-Mail mit einem Aktivierungslink wurde an <b>${account.email}</b> verschickt. Sobald der Link angeklickt wurde, kannst du deinen eigenen Blog hinzufügen und mit der deutschen Java Community teilen. 
            </p>
            <p>
-           Look forward to reading your Groovy and Grails blogs on groovyblogs.org.
-           </p>
-           <p>
-           Glen Smith - groovyblogs.org
+           Viel Spaß!
            </p>
         </div>
     </body>

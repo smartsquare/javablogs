@@ -1,61 +1,50 @@
 <html>
 	<head>
-		<title>groovyblogs.org - <g:layoutTitle default="Welcome" /></title>
+		<title>javablogs.de - <g:layoutTitle default="Willkommen" /></title>
 		<link rel="stylesheet" href="${createLinkTo(dir:'css',file:'reset-fonts-grids.css')}"/>
-		<link rel="stylesheet" href="${createLinkTo(dir:'css',file:'groovyblogs.css')}"/>
+		<link rel="stylesheet" href="${createLinkTo(dir:'css',file:'javablogs.css')}"/>
 		<link rel="shortcut icon" href="${createLinkTo(file:'favicon.ico')}" />
 		<g:layoutHead />
 		<g:javascript library="application" />
-
-		
-		<meta name="description" content="groovyblogs.org is a groovy and grails blog aggregator" />
-		<meta name="keywords" content="groovy,grails,blogs" />
-		<meta name="robots" content="index,follow" />
-
-                <script type="text/javascript">
-var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-</script>
-<script type="text/javascript">
-try {
-var pageTracker = _gat._getTracker("UA-1038671-2");
-pageTracker._trackPageview();
-} catch(err) {}</script>
-					
+		<meta name="description" content="javablogs.de is a german java blog aggregator" />
+		<meta name="keywords" content="java,javaee,jee,javafx,jsf,jvm" />
+		<meta name="robots" content="index,follow" />					
 	</head>
+	
 	<body>
 	<div id="doc3" class="yui-t4"> 
 	    <div id="hd">
-			<img id="logo" src="${createLinkTo(dir:'images',file:'headerlogo.png')}" alt="gZone Logo"/>
+			<h1 id="title">javablogs.de</h1>
+			<h2 id="subtitle">Frisch gemahlen und heiß gebrüht</h2>
 			
 			  <div id="tabs">
 			    <ul>
 			      <!-- <li class="${request.forwardURI =~ /home/ ? 'current' : 'notcurrent'}"><a href="<g:createLinkTo dir=''/>" >home</a></li> -->
-			      <li id="${request.forwardURI =~ /entries\/recent/ ? 'current' : 'notcurrent'}"><a href="<g:createLink controller='entries' action='recent'/>">Just In</a></li>
-     			  <li id="${request.forwardURI =~ /entries\/popular/ ? 'current' : 'notcurrent'}"><a href="<g:createLink controller='entries' action='popular'/>">Popular</a></li>
-     			  <li id="${request.forwardURI =~ /entries\/lists/ ? 'current' : 'notcurrent'}"><a href="<g:createLink controller='entries' action='lists'/>">The Lists</a></li>
+			      <li id="${request.forwardURI =~ /entries\/recent/ ? 'current' : 'notcurrent'}"><a href="<g:createLink controller='entries' action='recent'/>">Neu</a></li>
+     			  <li id="${request.forwardURI =~ /entries\/popular/ ? 'current' : 'notcurrent'}"><a href="<g:createLink controller='entries' action='popular'/>">Beliebt</a></li>
+     			  <li id="${request.forwardURI =~ /entries\/lists/ ? 'current' : 'notcurrent'}"><a href="<g:createLink controller='entries' action='lists'/>">Mailinglisten</a></li>
      			  <!-- <li id="${request.forwardURI =~ /entries\/tweets/ ? 'current' : 'notcurrent'}"><a href="<g:createLink controller='entries' action='tweets'/>">Tweets</a></li> -->
-				<jsec:hasRole name="admin">
-     			  <li id="${request.forwardURI =~ /blog\/list/ ? 'current' : 'notcurrent'}"><a href="<g:createLink controller='blog' action='list'/>">All Blogs</a></li>
-				</jsec:hasRole>
+				<shiro:hasRole name="admin">
+     			  <li id="${request.forwardURI =~ /blog\/list/ ? 'current' : 'notcurrent'}"><a href="<g:createLink controller='blog' action='list'/>">Alle Blogs</a></li>
+				</shiro:hasRole>
 
-                          <li id="${request.forwardURI =~ /account/ ? 'current' : 'notcurrent'}"><a href="<g:createLink controller='account' action='edit'/>">My Blogs</a></li>
+                          <li id="${request.forwardURI =~ /account/ ? 'current' : 'notcurrent'}"><a href="<g:createLink controller='account' action='edit'/>">Meine Blogs</a></li>
 
-                          <jsec:user>
+                <shiro:user>
 			      	<li id="${request.forwardURI =~ /login/ ? 'current' : 'notcurrent'}"><a href="<g:createLink controller='auth' action='signOut'/>">Logout</a></li>
-			  </jsec:user>
+			  	</shiro:user>
 
-                          <jsec:notUser>
+				<shiro:notUser>
 			      <li id="${request.forwardURI =~ /login/ ? 'current' : 'notcurrent'}"><a href="<g:createLink controller='auth' action='login'/>">Login</a></li>
-			  </jsec:notUser>
+			  	</shiro:notUser>
 			      <g:if test="${request.forwardURI =~ /search/}">
-				      <li id="current"><a href="<g:createLink controller='search' action='search'/>">Search</a></li>
+				      <li id="current"><a href="<g:createLink controller='search' action='search'/>">Suche</a></li>
 			      </g:if>
 
 			      
 			      
 			    </ul>
-			    <g:searchBox noCombo="true" query="${params.query}" fields="title,description" controller="search" action="search"/>
+			    <g:searchBox noCombo="true" query="${params.query}" fields="title,description" controller="search" action="search" />
 			  </div>
 			
 		</div>  
@@ -82,7 +71,7 @@ pageTracker._trackPageview();
 
 	   </div>  <!-- end body -->
 	   <div id="ft">
-	   		All article content copyright by respective authors. groovyblogs.org by <a href="http://blogs.bytecode.com.au/glen">Glen Smith</a>.
+	   		Das Copyright liegt bei den jeweiligen Autoren der Artikel. javablogs.de by <a href="http://www.smartsquare.de">Smartsquare GmbH</a> based on <a href="http://www.groovyblogs.org">groovyblogs.org</a> by Glen Smith.
 	   </div>  
 	</div> 
 		

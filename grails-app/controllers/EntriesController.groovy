@@ -24,7 +24,7 @@ class EntriesController {
 			
         return [
             entries: entries, // entriesService.limitEntries(entries),
-            pageTitle : "Recent Entries (Last ${days} Days)",
+            pageTitle : "Die neuesten Eintr&auml;ge (der letzten ${days} Tage)",
             thumbnails: grailsApplication.config.thumbnail.enabled
         ]
     }
@@ -54,11 +54,13 @@ class EntriesController {
 	
     def popular = {
 
+		int days = EntriesService.DEFAULT_DAYS_TO_REPORT
+		
         def entries = entriesService.getPopularEntries()
 			
         render(view: 'recent',
             model: [ entries: entries,
-                pageTitle: 'Popular Entries (Last 7 Days)',
+                pageTitle: "Die beliebtesten Eintr&auml;ge (der letzten ${days} Tage)",
                 thumbnails: grailsApplication.config.thumbnail.enabled]
         )
     }
@@ -83,7 +85,7 @@ class EntriesController {
             be.save()
             response.sendRedirect(be.link)
         } else {
-            flash.message = "Could not find link for blogEntry id $params.id"
+            flash.message = "Der Link zu dem Artikel $params.id konnte nicht gefunden werden."
             redirect(action: recent)
         }
 			
@@ -109,7 +111,7 @@ class EntriesController {
 				
             response.sendRedirect(jumpTranslateUrl)
         } else {
-            flash.message = "Could not find link for blogEntry id $params.id"
+            flash.message = "Der Link zu dem Artikel $params.id konnte nicht gefunden werden."
             redirect(action: recent)
         }
 			

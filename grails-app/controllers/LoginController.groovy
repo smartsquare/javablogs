@@ -17,14 +17,14 @@ class LoginController {
                 session.account = user
                 user.lastLogin = new Date()
                 user.save()
-                flash.message = "Welcome ${user.userid}"
+                flash.message = "Hallo und willkommen ${user.userid}"
                 if (session.returnController) {
                     redirect(controller:session.returnController, action:session.returnAction)
                 } else {
                     redirect(controller:'entries', action:'recent')
                 }
             } else {
-                flash.message = "Invalid username or password. Please try again."
+                flash.message = "Unbekannte Benutzerkennung oder falsches Passwort."
             }
         }
     }
@@ -45,26 +45,23 @@ class LoginController {
                 }
                 account.password = genPw.encodeAsSHA1Bytes().encodeBase64()
                 def msg = """
-		        	<h1>groovyblogs.org Password Reset</h1>
+		        	<h1>javablogs.de Passwort zurückgesetzt</h1>
 		        	<p>
-		            Hi ${account.userid}, we've reset your password to: <b>${genPw}</b>.
-					You need to type in the letters in upper case. 
-					Once you've logged on you can change it to something you prefer
-					by going into the "My Blogs" tab.
+		            Hallo ${account.userid}, dein Passwort wurde zurückgesetzt: <b>${genPw}</b>.
+					Die Eingabe muss in GROSSBUCHSTABEN erfolgen.
+					Nach dem Login, kannst du dein Passwort unter "Meine Blogs" neu setzen.
 		            </p>
-					<p>
-					Glen Smith - groovyblogs.org
-					</p>
+					<p>Viele Grüße von javablogs.de!</p>
 		            """
                 sendMail {
                     to account.email
-                    subject "groovyblogs.org Password Reset"
+                    subject "javablogs.de Passwort zurückgesetzt"
                     body msg
                 }
-                flash.message = "A new password has been generated and emailed to your account"
+                flash.message = "Ein neues Passwort wurde generiert und an deine E-Mail Adresse gesendet."
                 redirect(controller: 'entries')
             } else {
-                flash.message = "Could not locate your account."
+                flash.message = "Unter dieser Kennung wurde kein Benutzerkonto gefunden."
             }
 			
         }

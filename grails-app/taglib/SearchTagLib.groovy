@@ -42,7 +42,7 @@ class SearchTagLib {
         }
 		
         out << "<input type='hidden' name='fields' value='${attrs.fields}'/>"
-        out << "<input id='searchButton' type='submit' value='Search'/>"
+        out << "<input id='searchButton' type='submit' value='Suchen'/>"
 		
         out << "</form>"
         out << "</div>"

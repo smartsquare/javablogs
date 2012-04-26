@@ -4,7 +4,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="layout" content="main" />
-    <title>Search Results</title>
+    <title>Suchergebnisse</title>
 </head>
 <body>
     <div class="body">
@@ -17,8 +17,8 @@
     <g:if test="${searchResult?.results}">
         <div id="searchCount">
 
-            Displaying <b>${1 + searchResult.offset} - ${ searchResult.offset + 10}</b>
-            of <b>${searchResult.total}</b> matches
+            Es werden <b>${1 + searchResult.offset} - ${ searchResult.offset + 10}</b>
+            von <b>${searchResult.total}</b> Treffern angezeigt
             
 
             <g:each var="result" in="${searchResult.results}">
@@ -43,7 +43,7 @@
 
     </g:if>
     <g:else>
-        No matches found.
+        Die Suche lieferte keine Ergebnisse.
     </g:else>
 
 

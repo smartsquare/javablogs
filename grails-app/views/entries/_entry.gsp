@@ -5,7 +5,7 @@
       <td style="padding-right: 60px">
         <div id="pic">
           <a class="p1" href="<g:createLink controller='entries' action='jump' id='${entry.id}'/>" title="thumbnail image">
-            <img src="<g:createLink controller='thumbnail' action='show' id='${entry.id}'/>" alt="No Image Available" onmouseover="document.getElementById('large-${entry.id}').src = '<g:createLink controller='thumbnail' action='showLarge' id='${entry.id}'/>'" />
+            <img src="<g:createLink controller='thumbnail' action='show' id='${entry.id}'/>" alt="Kein Bild verf&uuml;gbar" onmouseover="document.getElementById('large-${entry.id}').src = '<g:createLink controller='thumbnail' action='showLarge' id='${entry.id}'/>'" />
             <img id="large-${entry.id}" src="" alt="Loading Image..." class="large"  />
           </a>
         </div>

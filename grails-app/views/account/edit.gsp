@@ -3,14 +3,14 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
         <meta name="layout" content="main" />
-        <title>Edit Account</title>
+        <title>Benutzerkonto bearbeiten</title>
         <g:javascript library="scriptaculous" />
 
     </head>
     <body>
 
         <div class="body">
-            <h1>Edit Account</h1>
+            <h1>Benutzerkonto bearbeiten</h1>
 
             <g:hasErrors bean="${account}">
                 <div class="errors">
@@ -23,16 +23,16 @@
                     <div class="dialog">
                         <table>
 
-                            <tr class='prop'><td valign='top' class='name'><label for='userid'>User Id:</label></td><td valign='top' class='value ${hasErrors(bean:account,field:'userid','errors')}'>${account.userid}</td></tr>
+                            <tr class='prop'><td valign='top' class='name'><label for='userid'>Benutzerkennung:&nbsp;</label></td><td valign='top' class='value ${hasErrors(bean:account,field:'userid','errors')}'>${account.userid}</td></tr>
 
-                            <tr class='prop'><td valign='top' class='name'><label for='password'>Password:</label></td><td valign='top' class='value ${hasErrors(bean:account,field:'password','errors')}'><input type="password" name='password' /></td></tr>
+                            <tr class='prop'><td valign='top' class='name'><label for='password'>Passwort:&nbsp;</label></td><td valign='top' class='value ${hasErrors(bean:account,field:'password','errors')}'><input type="password" name='password' /></td></tr>
 
-                            <tr class='prop'><td valign='top' class='name'><label for='email'>Email:</label></td><td valign='top' class='value ${hasErrors(bean:account,field:'email','errors')}'><input type='text' name='email' value='${account?.email}' /></td></tr>
+                            <tr class='prop'><td valign='top' class='name'><label for='email'>E-Mail:&nbsp;</label></td><td valign='top' class='value ${hasErrors(bean:account,field:'email','errors')}'><input type='text' name='email' value='${account?.email}' /></td></tr>
 
                         </table>
                     </div>
                     <div class="buttons">
-                        <span class="button"><g:actionSubmit value="Update" /></span>
+                        <span class="button"><g:actionSubmit value="Aktualisieren" /></span>
                     </div>
 
                 </g:form>
@@ -43,7 +43,7 @@
 
 
                 <g:if test="${account.blogs.size() > 0}">
-                    <h2>My Blogs</h2>
+                    <h2>Meine Blogs</h2>
 
                     <div id="myBlogs">
 
@@ -55,12 +55,12 @@
 
                         <table class="blogTable">
                             <tr>
-                                <td>Blog</td>
-                                <td>Description</td>
-                                <td>Added</td>
-                                <td>Last Update</td>
-                                <td>Next Update</td>
-                                <td></td>
+                                <th>Blog</th>
+                                <th>Beschreibung</th>
+                                <th>Hinzugefügt</th>
+                                <th>Letztes Update</th>
+                                <th>Nächstes Update</th>
+                                <th></th>
                             </tr>
 
 
@@ -77,8 +77,8 @@
 
                                     <td>
 
-                                        <a href="<g:createLink action='updateFeed' id='${blog.id}'/>">Update</a>
-                                        <a href="<g:createLink action='deleteFeed' id='${blog.id}'/>" onclick="return confirm('Are you sure you want to delete ${blog.title}')">Delete</a>
+                                        <a href="<g:createLink action='updateFeed' id='${blog.id}'/>">Aktualisieren</a>
+                                        <a href="<g:createLink action='deleteFeed' id='${blog.id}'/>" onclick="return confirm('Bist du sicher, dass du den Blog ${blog.title} löschen möchtest?')">Löschen</a>
                                     </td>
                                 </tr>
 
@@ -91,23 +91,13 @@
                 <div id="newFeed" style="margin: 1em; padding: 1em; border: 1px solid black; background-color: lightgray;">
 
                     <p style="margin-bottom: 5px; ">
-                        groovyblogs.org hosts <a href="http://groovy.codehaus.org">Groovy</a> and
-                        <a href="http://www.grails.org">Grails</a>-related blogs. If your feed is
-                        not Groovy or Grails related, it will be filtered by the engine and will
-                        not display. Use the <b>Test Feed</b> button to see what will and won't get aggregated.
-                        All feed creation is moderated, so your blog won't appear right away.
+                    	javablogs.de führt eine Liste von deutschsprachigen Javablogs. Als nächstes kannst du deinen eigenen Blog zu der Liste hinzufügen. 
+                    	Diese Seite ist moderiert, d.h. neue Artikel in deinem Blog erscheinen erst auf der Startseite, wenn der Blog von einem 
+                    	Administrator genehmigt wurde. Bitte beachte auch, dass die angegebene URL einen RSS Feed anbieten muss, damit javablogs.de die Seite aggregieren kann.   
                     </p>
 
-                    <label for='feedUrl'>Add New Feed:</label><input type="text" name='feedUrl' style="width: 400px;" value="${blog?.feedUrl?.encodeAsHTML()}"></input>
-                    <g:submitToRemote url="[action: 'testFeed', controller: 'account']" update="feedResults"
-                               onLoading="showSpinner();" onLoaded="hideSpinner();"
-                               onComplete="appearDiv();" value="Test Feed"/>
-
-                    <img id="spinner" style="display: none;" src="${createLinkTo(dir:'images',file:'spinner.gif')}">
-
-                    <input type="submit" value="Add Feed"/>
-
-
+                    <label for='feedUrl'>Dein Blogfeed:&nbsp;</label><input type="text" name='feedUrl' style="width: 400px;" value="${blog?.feedUrl?.encodeAsHTML()}"></input>
+                    <input type="submit" value="Hinzufügen"/>
 
                 </div>
 

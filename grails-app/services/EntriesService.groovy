@@ -36,7 +36,6 @@ class EntriesService {
         if (!entries) {
             params.order = "desc"
             entries = BlogEntry.listOrderByDateAdded(params)
-            entries = entries.findAll { entry -> entry.isGroovyRelated() }
             entriesCache.put(new Element("endlessList=${params.offset}", entries))
         }
         return entries
@@ -55,7 +54,6 @@ class EntriesService {
 
             entries = BlogEntry.findAllByDateAddedGreaterThan(
                 aWhileAgo, [ sort: 'dateAdded', order: "desc" ] )
-            entries = entries.findAll { entry -> entry.isGroovyRelated() }
             if (days == DEFAULT_DAYS_TO_REPORT) {
                 entriesCache.put(new Element("recentList", entries))
             }
@@ -77,7 +75,6 @@ class EntriesService {
 
             entries = BlogEntry.findAllByDateAddedGreaterThanAndHitCountGreaterThan(
                 aWhileAgo, 0, [ sort: 'hitCount', order: "desc" ] )
-            entries = entries.findAll { entry -> entry.isGroovyRelated() }
 
             entriesCache.put(new Element("popularList", entries))
         } else {

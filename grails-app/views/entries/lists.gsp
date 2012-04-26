@@ -3,11 +3,11 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="layout" content="main" />
-    <title>Mailing Lists</title>
+    <title>Mailinglisten</title>
   </head>
   <body>
     <div class="body">
-      <h1>Mailing Lists (Last 24 Hours)</h1>
+      <h1>Mailinglisten (letzten 24 Stunden)</h1>
       <p>Powered By <a href="http://www.nabble.com/">Nabble</a></p>
 
       <g:each var="entry" in="${entries}">
