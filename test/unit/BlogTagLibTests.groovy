@@ -21,7 +21,31 @@ class BlogTagLibTests extends GroovyTestCase {
 		def out = applyTemplate('<g:dateFromNow date="${date}" />', [date: cal.time])
 
 		// then
-		assertEquals "Right now", out
+		assertEquals "Jetzt gerade", out
+	}
+
+	void testDateFromNowOneDayAgo() {
+		// given
+		Calendar cal = Calendar.getInstance()
+		cal.add(Calendar.DAY_OF_MONTH, -1)
+
+		// when
+		def out = applyTemplate('<g:dateFromNow date="${date}" />', [date: cal.time])
+
+		// then
+		assertEquals "Vor 1 Tag", out
+	}
+
+	void testDateFromNowTwoDaysAgo() {
+		// given
+		Calendar cal = Calendar.getInstance()
+		cal.add(Calendar.DAY_OF_MONTH, -2)
+
+		// when
+		def out = applyTemplate('<g:dateFromNow date="${date}" />', [date: cal.time])
+
+		// then
+		assertEquals "Vor 2 Tagen", out
 	}
 
 	void testDateFromNowOneHourAgo() {
@@ -33,10 +57,47 @@ class BlogTagLibTests extends GroovyTestCase {
 		def out = applyTemplate('<g:dateFromNow date="${date}" />', [date: cal.time])
 
 		// then
-		assertEquals "1 hour ago", out
+		assertEquals "Vor 1 Stunde", out
 	}
 
-	void testDateFromNowOneHourFromNow() {
+	void testDateFromNowTwoHoursAgo() {
+		// given
+		Calendar cal = Calendar.getInstance()
+		cal.add(Calendar.HOUR, -2)
+
+		// when
+		def out = applyTemplate('<g:dateFromNow date="${date}" />', [date: cal.time])
+
+		// then
+		assertEquals "Vor 2 Stunden", out
+	}
+
+	void testDateFromNowOneMinuteAgo() {
+		// given
+		Calendar cal = Calendar.getInstance()
+		cal.add(Calendar.MINUTE, -1)
+
+		// when
+		def out = applyTemplate('<g:dateFromNow date="${date}" />', [date: cal.time])
+
+		// then
+		assertEquals "Vor 1 Minute", out
+	}
+
+	void testDateFromNowTwoMinutesAgo() {
+		// given
+		Calendar cal = Calendar.getInstance()
+		cal.add(Calendar.MINUTE, -2)
+
+		// when
+		def out = applyTemplate('<g:dateFromNow date="${date}" />', [date: cal.time])
+
+		// then
+		assertEquals "Vor 2 Minuten", out
+	}
+
+
+	void testDateFromNowTwoHoursFromNow() {
 		// given
 		Calendar cal = Calendar.getInstance()
 		cal.add(Calendar.HOUR, 1)
@@ -46,6 +107,6 @@ class BlogTagLibTests extends GroovyTestCase {
 		def out = applyTemplate('<g:dateFromNow date="${date}" />', [date: cal.time])
 
 		// then
-		assertEquals "1 hour from now", out
+		assertEquals "In 1 Stunde", out
 	}
 }

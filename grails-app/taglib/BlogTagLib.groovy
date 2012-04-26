@@ -34,26 +34,26 @@ class BlogTagLib {
 
         calc = Math.floor(diff / day)
         if (calc > 0) {
-            niceTime += calc + " day" + (calc > 1 ? "s " : " ")
+            niceTime += calc + " Tag" + (calc > 1 ? "en" : "")
             diff = diff % day
         }
 
         calc = Math.floor(diff / hour)
         if (calc > 0) {
-            niceTime += calc + " hour" + (calc > 1 ? "s " : " ")
+            niceTime += calc + " Stunde" + (calc > 1 ? "n" : "")
             diff = diff % hour
         }
 
         calc = Math.floor(diff / minute)
         if (calc > 0) {
-            niceTime += calc + " minute" + (calc > 1 ? "s " : " ")
+            niceTime += calc + " Minute" + (calc > 1 ? "n" : "")
             diff = diff % minute
         }
 
         if (niceTime.length() == 0) {
-            niceTime = "Right now"
+            niceTime = "Jetzt gerade"
         } else {
-            niceTime += (date.getTime() > now.getTime()) ? "from now" : "ago"
+            niceTime = (date.getTime() > now.getTime() ? "In " : "Vor ") + niceTime 
         }
 
         return niceTime
@@ -72,7 +72,7 @@ class BlogTagLib {
     def niceDate = { attrs ->
 
         def date = attrs.date
-        def sdf = new java.text.SimpleDateFormat("EEE, d MMM yyyy HH:mm")
+        def sdf = new java.text.SimpleDateFormat("EEE, d MMM yyyy HH:mm", Locale.GERMAN)
         out << sdf.format(date)
 
     }
