@@ -1,45 +1,51 @@
 @TestFor(BlogTagLib)
 class BlogTagLibTests extends GroovyTestCase {
 
-    void testNiceDate() {
+	void testNiceDate() {
+		// given
+		Date now = new Date()
 
-        // create taglib with mocked "out"
-        StringWriter out = new StringWriter()
-        BlogTagLib.metaClass.out = out
-        BlogTagLib btl = new BlogTagLib()
+		// when
+		def out = applyTemplate('<g:niceDate date="${date}" />', [date: now])
 
+		// then
+		assertEquals(new java.text.SimpleDateFormat("EEE, d MMM yyyy HH:mm").format(now), out)
 
-        Date now = new Date()
+	}
 
-        btl.niceDate(date: now)
+	void testDateFromNowRightNow() {
+		// given
+		Calendar cal = Calendar.getInstance()
 
-        assertEquals(
-            new java.text.SimpleDateFormat("EEE, d MMM yyyy HH:mm").format(now),
-            out.toString()
-        )
+		// when
+		def out = applyTemplate('<g:dateFromNow date="${date}" />', [date: cal.time])
 
-    }
+		// then
+		assertEquals "Right now", out
+	}
 
-    void testDateFromNow() {
+	void testDateFromNowOneHourAgo() {
+		// given
+		Calendar cal = Calendar.getInstance()
+		cal.add(Calendar.HOUR, -1)
 
-        // create taglib with mocked "out"
-        StringWriter out = new StringWriter()
-        BlogTagLib.metaClass.out = out
-        BlogTagLib btl = new BlogTagLib()
+		// when
+		def out = applyTemplate('<g:dateFromNow date="${date}" />', [date: cal.time])
 
-        Calendar cal = Calendar.getInstance()
+		// then
+		assertEquals "1 hour ago", out
+	}
 
-        btl.dateFromNow(date: cal.time)
+	void testDateFromNowOneHourFromNow() {
+		// given
+		Calendar cal = Calendar.getInstance()
+		cal.add(Calendar.HOUR, 1)
+		cal.add(Calendar.MINUTE, 1)
 
-        assertEquals "Right now", out.toString()
+		// when
+		def out = applyTemplate('<g:dateFromNow date="${date}" />', [date: cal.time])
 
-        // reset "out" buffer
-        out.getBuffer().setLength(0)
-
-        cal.add(Calendar.HOUR, -1)
-        btl.dateFromNow(date: cal.time)
-
-        assertEquals "1 hour ago", out.toString()
-
-    }
+		// then
+		assertEquals "1 hour from now", out
+	}
 }
