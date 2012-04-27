@@ -194,12 +194,6 @@ class FeedService {
 				}
 
 				log.debug("Saved entry with title [$be.title]")
-
-
-
-
-			} else {
-				log.debug("Ignoring non-groovy blog entry: $be.title")
 			}
 		}
 
