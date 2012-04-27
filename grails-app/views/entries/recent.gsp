@@ -15,18 +15,15 @@
         </style>
       </g:if>
 
-    </style>
   </head>
   <body>
-    <div class="body">
+    <div class="content_box">
       <h1>${pageTitle}</h1>
-
-      <g:each var="entry" in="${entries}">
-
-        <g:render template="entry" model="[ entry: entry, thumbnails: thumbnails ]"/>
-
-      </g:each>
-
     </div>
+
+    <g:each var="entry" in="${entries}">
+      <g:render template="entry" model="[ entry: entry, thumbnails: thumbnails ]"/>
+    </g:each>
+
   </body>
 </html>

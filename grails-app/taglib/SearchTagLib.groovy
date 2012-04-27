@@ -21,7 +21,7 @@ class SearchTagLib {
 		
         if (attrs.query == null) { attrs.query = "" }
 		
-        out << "<input id='searchField' size='45' name='query' value='${attrs.query}'/> "
+        out << "<input id='searchField' class='search' size='45' name='query' value='${attrs.query}'/> "
 		
 		
         int selectedMaxHits

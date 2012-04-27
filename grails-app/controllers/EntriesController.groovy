@@ -24,7 +24,7 @@ class EntriesController {
 			
         return [
             entries: entries, // entriesService.limitEntries(entries),
-            pageTitle : "Die neuesten Eintr&auml;ge (der letzten ${days} Tage)",
+            pageTitle : "<span>Neue Eintr&auml;ge</span> (der letzten ${days} Tage)",
             thumbnails: grailsApplication.config.thumbnail.enabled
         ]
     }
@@ -60,7 +60,7 @@ class EntriesController {
 			
         render(view: 'recent',
             model: [ entries: entries,
-                pageTitle: "Die beliebtesten Eintr&auml;ge (der letzten ${days} Tage)",
+                pageTitle: "<span>Beliebte Eintr&auml;ge</span> (der letzten ${days} Tage)",
                 thumbnails: grailsApplication.config.thumbnail.enabled]
         )
     }

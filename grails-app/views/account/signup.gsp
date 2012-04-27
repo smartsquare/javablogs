@@ -7,8 +7,8 @@
          <title>Benutzerkonto erstellen</title>         
     </head>
     <body>
-        <div id="content">
-           <h1>Neues Benutzerkonto</h1>
+        <div id="content_box">
+           <h1><span>Neues Benutzerkonto</span></h1>
            
            <g:hasErrors bean="${account}">
                 <div class="errors">
@@ -18,12 +18,8 @@
            <g:form action="register" method="post" >
                <div class="dialog">
                 <table>
-
-                       
                      <tr class='prop'><td valign='top' class='name'><label for='userid'>Benutzerkennung:&nbsp;</label></td><td valign='top' class='value ${hasErrors(bean:account,field:'userid','errors')}'><input type='text' name='userid' value='${account?.userid}' /></td></tr>
-                     
                      <tr class='prop'><td valign='top' class='name'><label for='password'>Passwort:&nbsp;</label></td><td valign='top' class='value ${hasErrors(bean:account,field:'password','errors')}'><input type="password" name='password' value='${account?.password}' /></td></tr>                       
-
                      <tr class='prop'><td valign='top' class='name'><label for='email'>E-Mail:&nbsp;</label></td><td valign='top' class='value ${hasErrors(bean:account,field:'email','errors')}'><input type='text' name='email' value='${account?.email}' /></td></tr>
                                  
 
