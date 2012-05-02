@@ -7,7 +7,7 @@
 </head>
 <body>
 	<div id="content_box">
-		<h1>Passwort vergessen?</h1>
+		<h1><span>Passwort vergessen?</span></h1>
 
 
 		<p style="margin: 8px;">Falls du dein Passwort vergessen hast,
