@@ -1,6 +1,6 @@
 <div class="sidebar_box">
   <h3>Über javablogs.de</h3>
-  <div class="niceBoxBody">
+  <div class="sb_content">
     javablogs.org wird bereitsgestellt von der
     <a href="http://www.smartsquare.de">Smartsquare GmbH</a>.<br/>
     javablogs.de läuft in der Version
@@ -29,21 +29,10 @@
   <div class="sidebar_box">
     <h3>Login</h3>
     <div class="sb_content">
-      <g:form controller="auth" action="signIn" method="post" >
-        <b>Benutzerkennung:&nbsp;</b>
-        <input type='text' name='username'/>
-        <b>Passwort:&nbsp;</b>
-        <input type="password" name='password'/>
-        <b>Login merken?:&nbsp;</b>
-        <g:checkBox name="rememberMe" />
-
-        <span class="formButton">
-          <input type="submit" value="Login"></input>
-        </span>
-      </g:form>
-      <p>
-      <g:link controller='login' action="forgottenPassword">Passwort vergessen?</g:link><p/>
-      <g:link controller='account' action="signup">Hier registrieren!</g:link>
+    	<g:render template="/loginForm"/>
+		<p>
+		<g:link controller='login' action="forgottenPassword">Passwort vergessen?</g:link><p/>
+		<g:link controller='account' action="signup">Hier registrieren!</g:link>
     </div>
   </div>
 </shiro:notUser>

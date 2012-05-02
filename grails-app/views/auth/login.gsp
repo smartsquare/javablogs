@@ -8,28 +8,7 @@
   <g:if test="${flash.message}">
     <div class="message">${flash.message}</div>
   </g:if>
-  <g:form action="signIn">
-    <input type="hidden" name="targetUri" value="${targetUri}" />
-    <table>
-      <tbody>
-        <tr>
-          <td>Benutzerkennung:&nbsp;</td>
-          <td><input type="text" name="username" value="${username}" /></td>
-        </tr>
-        <tr>
-          <td>Passwort:&nbsp;</td>
-          <td><input type="password" name="password" value="" /></td>
-        </tr>
-        <tr>
-          <td>Login merken?:&nbsp;</td>
-          <td><g:checkBox name="rememberMe" value="${rememberMe}" /></td>
-        </tr>
-        <tr>
-          <td />
-          <td><input type="submit" value="Login" /></td>
-        </tr>
-      </tbody>
-    </table>
-  </g:form>
+  <h1><span>Login</span></h1>
+  <g:render template="/loginForm"/>
 </body>
 </html>
