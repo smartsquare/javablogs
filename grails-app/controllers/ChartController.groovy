@@ -11,8 +11,10 @@ import org.jfree.chart.encoders.*
 import org.jfree.ui.*
 
 import java.awt.*
+import java.awt.font.TextAttribute
 import java.awt.image.*
-import net.sf.ehcache.Ehcache
+import java.text.AttributedCharacterIterator
+
 import net.sf.ehcache.Element
 
 
@@ -27,7 +29,7 @@ class ChartController {
     	
         DefaultCategoryDataset dataset = new DefaultCategoryDataset()
 		
-        def fmt = new java.text.SimpleDateFormat("EEE");
+        def fmt = new java.text.SimpleDateFormat("EEE", Locale.GERMAN);
         def entryCount = [ : ]
 		                   
         def lastWeek = new Date().minus(6)
@@ -70,7 +72,14 @@ class ChartController {
             false                     // urls
         )
     	
-        chart.setTitle(new TextTitle("Einträge der letzten 7 Tage", new Font("SansSerif", Font.BOLD, 12)))
+		Map<? extends AttributedCharacterIterator.Attribute,?> titleAttributes = new HashMap<? extends AttributedCharacterIterator.Attribute,?>()
+    	titleAttributes.put(TextAttribute.FOREGROUND, Color.WHITE)
+		titleAttributes.putAll(titleAttributes)
+		
+		titleAttributes.put(TextAttribute.FAMILY, Font.SANS_SERIF)
+		titleAttributes.put(TextAttribute.WEIGHT, TextAttribute.WEIGHT_BOLD)
+		titleAttributes.put(TextAttribute.SIZE, 12)
+        chart.setTitle(new TextTitle("Artikel der letzten 7 Tage", new Font(titleAttributes)))
 
         CategoryPlot plot = (CategoryPlot) chart.getPlot()
         plot.setForegroundAlpha(0.5f)
@@ -79,11 +88,12 @@ class ChartController {
 	     
         CategoryAxis domainAxis = plot.getDomainAxis()
         domainAxis.setCategoryLabelPositions(CategoryLabelPositions.UP_45)
-        // domainAxis.setLabelFont(new Font("SansSerif", Font.BOLD, 20))
+        domainAxis.setTickLabelPaint(Color.WHITE)
 	
         // customise the range axis...
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis()
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits())
+		rangeAxis.setTickLabelPaint(Color.WHITE)
 	     
 
         // From Aaron's tranparency howto
