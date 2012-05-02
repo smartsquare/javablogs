@@ -11,10 +11,10 @@ class UpdateListsJob {
 
     def execute() {
 		
-        log.info("Starting scheduled lists check at: " + new Date())
-	
-        feedService.updateLists()
-	    
-        log.info("Finished scheduled lists check at: " + new Date())
+//        log.info("Starting scheduled lists check at: " + new Date())
+//	
+//        feedService.updateLists()
+//	    
+//        log.info("Finished scheduled lists check at: " + new Date())
     }
 }
