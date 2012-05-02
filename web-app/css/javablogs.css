@@ -246,8 +246,8 @@ a.continue { color: #F00; font-weight: bold; text-decoration: none; }
 }
 .header .posted_date strong { display: block; margin-top: 5px; }
 
-.post_box img { width: 108px; height: 108px; border: 5px solid #fff; float: left; margin-right: 30px; }
-.post_box .pb_right { float: right; width: 450px; }
+.post_box img { width: 165px; height: 120px; border: 5px solid #fff; float: left; margin-right: 30px; }
+.post_box .pb_right { position:relative; width: 390px; top: -110px; left: 195px; z-index: 0;}
 .post_box .comment a { display: block; margin-top: 15px; background: url(../images/templatemo_comment.jpg) no-repeat bottom left; padding: 3px 0 0 25px; }
 
 #templatemo_sidebar {

@@ -37,11 +37,12 @@
 }
 
 #pic a.p1:hover .large {
-	border: 1px solid #000000;
+	border: 1px solid #FFFFFF;
 	display: block;
 	height: 240px; /* 373px; */
 	left: 173px;
 	position: absolute;
 	top: -60px;
 	width: 320px; /* 504px; */
+	z-index: 2;
 }		
