@@ -1,11 +1,12 @@
 
-import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import net.sf.ehcache.Ehcache
 
 class UpdateThumbsJob {
 
     def concurrent = false
 
+	def grailsApplication
+	
     ThumbnailService thumbnailService
     Ehcache pendingCache
 
@@ -18,7 +19,7 @@ class UpdateThumbsJob {
 
     def execute() {
 
-        if (!ConfigurationHolder.config.thumbnail.enabled) {
+        if (!grailsApplication.config.thumbnail.enabled) {
             // service disabled
             return
         }
