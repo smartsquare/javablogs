@@ -15,7 +15,7 @@ class FeedEntry {
 		
         def summary = longForm ? longForm : ""
         summary = longForm.replaceAll("</?[^>]+>", "")
-        summary = summary.length() > 200 ? summary[0..199] + "..." : summary
+        summary = summary.length() > 300 ? summary[0..299] + "..." : summary
 				
     }
 
