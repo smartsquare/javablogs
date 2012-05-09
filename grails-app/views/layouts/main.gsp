@@ -98,10 +98,13 @@
 
 
 	<div id="templatemo_footer">
-		Das Copyright liegt bei den jeweiligen Autoren der Artikel |
+		<p>Das Copyright liegt bei den jeweiligen Autoren der Artikel |
 		javablogs.de by <a href="http://www.smartsquare.de">Smartsquare
 			GmbH</a> based on <a href="http://www.groovyblogs.org">groovyblogs.org</a>
-		by Glen Smith | <g:link controller="static" action="impressum">Impressum</g:link>
+		by Glen Smith | <g:link controller="static" action="impressum">Impressum</g:link></p>
+		<p>javablogs.de läuft in der Version
+    <g:meta name="app.version"/> und verwendet
+    <a href="http://grails.org">Grails</a> <g:meta name="app.grails.version"/></p>
 	</div>
 
 </body>

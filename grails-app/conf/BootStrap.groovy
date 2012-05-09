@@ -28,8 +28,8 @@ class BootStrap {
         if (SystemConfig.count() == 0) {
 
             def defaultConfig = [
-                "thumbnail.user" : "youruser",
-                "thumbnail.apiKey" : "yourkey",
+                "thumbnail.user" : "14439",
+                "thumbnail.apiKey" : "910d6823d2478f5a6b3e338faf47ecf3",
 
                 "translate.apikey" : "yourKey",
 

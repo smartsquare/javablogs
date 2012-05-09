@@ -1,11 +1,10 @@
 <div class="sidebar_box">
   <h3>Über javablogs.de</h3>
   <div class="sb_content">
-    javablogs.org wird bereitsgestellt von der
-    <a href="http://www.smartsquare.de">Smartsquare GmbH</a>.<br/>
-    javablogs.de läuft in der Version
-    <g:meta name="app.version"/> und verwendet
-    <a href="http://grails.org">Grails</a> <g:meta name="app.grails.version"/>
+    <p>javablogs.de ist ein Aggregator für die deutschsprachige Java Blogosphäre und wird bereitsgestellt von der
+    <a href="http://www.smartsquare.de">Smartsquare GmbH</a>.</p>
+    <br/>
+    <p>Ist ihr Blog ohne ihr Wissen hier gelistet? Informieren Sie uns und wir entfernen Ihren Blog aus unserem Index.</p>
   </div>
 
 </div>
