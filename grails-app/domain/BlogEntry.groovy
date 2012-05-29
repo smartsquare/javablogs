@@ -21,10 +21,9 @@ class BlogEntry {
     Blog blog
 	
     static belongsTo = Blog
-	
+
     static def constraints = {
         title(size:0..255)
-        description(size:0..8192)
         language(nullable:true)
         link(unique: true)
         hash(nullable:true)
@@ -64,6 +63,7 @@ class BlogEntry {
     }
 
     static mapping = {
+		description type: 'text'
         link index:'Link_Idx'
         hash index:'Hash_Idx'
     }
