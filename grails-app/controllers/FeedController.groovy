@@ -80,12 +80,12 @@ class FeedController {
             blogEntries.each { blogEntry ->
                 def desc = new SyndContentImpl(type: "text/plain", value: FeedEntry.summarize(blogEntry.description));
                 def entry = new SyndEntryImpl(title: blogEntry.title,
-                    link: 'http://www.groovyblogs.org/entries/jump?id=' + blogEntry.id,
+                    link: 'http://javablogs.de/entries/jump?id=' + blogEntry.id,
                     publishedDate: blogEntry.dateAdded, description: desc, author: blogEntry.blog.title);
                 feedEntries.add(entry);
             }
-            feed = new SyndFeedImpl(feedType: feedType, title: 'GroovyBlogs.org',
-                link: 'http://www.groovyblogs.org', description: 'groovyblogs.org Recent Entries',
+            feed = new SyndFeedImpl(feedType: feedType, title: 'Javablogs.de',
+                link: 'http://javablogs.de', description: 'javablogs.de Neue Artikel',
                 entries: feedEntries);
 	            
             feedCache.put(new Element("romeFeed-" + feedType, feed))
