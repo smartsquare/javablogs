@@ -21,7 +21,7 @@
 		</div>
 
 		<div id="header_right">
-			<a href="#"><img src="${createLinkTo(file:'images/templatemo_twitter.png')}" alt="twitter" /></a>
+			<%-- <a href="#"><img src="${createLinkTo(file:'images/templatemo_twitter.png')}" alt="twitter" /></a> --%>
 			<a href="<g:createLink controller='feed' action='rss'/>"><img src="${createLinkTo(file:'images/templatemo_rss.png')}" alt="rss" /></a>
 
 			<div id="search_box">
