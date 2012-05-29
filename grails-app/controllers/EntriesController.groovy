@@ -24,7 +24,7 @@ class EntriesController {
 			
         return [
             entries: entries, // entriesService.limitEntries(entries),
-            pageTitle : "<span>Neue Eintr&auml;ge</span> (der letzten ${days} Tage)",
+			days: days,
             thumbnails: grailsApplication.config.thumbnail.enabled
         ]
     }
@@ -58,11 +58,11 @@ class EntriesController {
 		
         def entries = entriesService.getPopularEntries()
 			
-        render(view: 'recent',
-            model: [ entries: entries,
-                pageTitle: "<span>Beliebte Eintr&auml;ge</span> (der letzten ${days} Tage)",
-                thumbnails: grailsApplication.config.thumbnail.enabled]
-        )
+        return [ 
+			entries: entries,
+			days: days,
+            thumbnails: grailsApplication.config.thumbnail.enabled
+		]
     }
 	
     def lists = {
